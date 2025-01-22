@@ -14,7 +14,6 @@ class VectorDB():
         self.uploaded_file = uploaded_file
         self.output_file = os.path.join(os.getcwd(), "output.pdf")
         self.pc = Pinecone(api_key=os.getenv("PINE_CONE_API"))
-        # self.index_name = hash_value
 
     def get_hash(self, uploaded_file: UploadedFile) -> str:
         """
@@ -141,22 +140,18 @@ class VectorDB():
         index = self.pc.Index(self.index_name)
         records = []
 
-        # Prepare records for upsertion
         for d, e in zip(data_list, embeddings):
             records.append({
                 "id": d['id'],
                 "values": e.values,
                 "metadata": {'text': d['text']}
             })
-        print(embeddings, "----------------")
-        # Upsert the records into the index
 
         index.upsert(
             vectors=records,
             namespace=self.index_name
         )
 
-        # Wait for the upserted vectors to be indexed
         time.sleep(20)
         return index
 
@@ -188,10 +183,26 @@ class VectorDB():
         output = [result['metadata']['text'] for result in results['matches']]
         return output
 
-    def delete_index(self, index):
+    def delete_index(self, index: str) -> None:
+        """Delete a specified Pinecone index.
+
+        This function deletes the given Pinecone index if it exists.
+
+        :param index: The name of the Pinecone index to be deleted.
+        :return: None
+        """
         if index:
             self.pc.delete_index(index)
 
-    def validate_index(self, hash_key):
-        if self.pc.has_index(hash_key):
-            return True
+    def validate_index(self, hash_key: str) -> bool:
+        """Check if a specified Pinecone index exists.
+
+        This function checks whether the given index (identified by the
+        hash key) exists in the Pinecone service.
+
+        :param hash_key: The unique identifier (hash key) of the Pinecone
+        index to check.
+        :return: True if the index exists, False otherwise.
+        """
+        self.pc.has_index(hash_key)
+        return True
