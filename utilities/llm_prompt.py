@@ -33,6 +33,16 @@ def get_summary(model: object, results: list, query: str) -> str:
 
 
 def enhance_query(query: str, model: object) -> str:
+    """Refine a user query semantically to make it clearer and more meaningful.
+
+    This function uses a language model to enhance a given query by improving
+    its clarity while retaining its original intent. It ensures no irrelevant
+    details are added or the core intent is altered.
+
+    :param query: The original user query to be refined.
+    :param model: The language model object used to enhance the query.
+    :return: A string containing the semantically refined query.
+    """
 
     prompt = f"""
         Your task is to refine the user's query semantically to make it
