@@ -17,7 +17,6 @@ def get_summary(model: object, results: list, query: str) -> str:
         commodity class.
 
         The summary must:
-        - Be organized by commodity.
         - Focus only on the most relevant insights, projections, and trends
           derived from the retrieved results.
         - Exclude any redundant or unnecessary details.
@@ -26,7 +25,7 @@ def get_summary(model: object, results: list, query: str) -> str:
         {results}
 
         Based on this data, and in response to my query: '{query}', please
-        provide a refined summary for each commodity. Ensure the information is
+        provide a refined summary. Ensure the information is
         well-organized, accurate, and directly addresses the query.
     """
     response = model.generate_content(prompt)
