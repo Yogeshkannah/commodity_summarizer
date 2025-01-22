@@ -204,5 +204,5 @@ class VectorDB():
         index to check.
         :return: True if the index exists, False otherwise.
         """
-        self.pc.has_index(hash_key)
-        return True
+        if self.pc.has_index(hash_key):
+            return True
